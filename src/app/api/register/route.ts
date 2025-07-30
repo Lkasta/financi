@@ -16,7 +16,7 @@ export async function POST(req: Request) {
     expiresIn: "1h",
   });
 
-  const res = NextResponse.json({ success: true });
+  const res = NextResponse.json({ success: true, code });
 
   res.cookies.set("token", token, {
     path: "/",

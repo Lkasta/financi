@@ -3,25 +3,46 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import Link from "next/link";
 import { useState } from "react";
+import { CodeDialog } from "../components/CodeDialog/CodeDialog";
+
+import Link from "next/link";
 
 export default function Register() {
   const [name, setName] = useState("");
-
-  console.log(name);
+  const [code, setCode] = useState("");
+  const [open, setOpen] = useState(true);
 
   async function handleRegister(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    await fetch("/api/register", {
+    const res = await fetch("/api/register", {
       method: "POST",
       body: JSON.stringify({ name }),
-    })
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      console.log("Código gerado:", data.code);
+      setCode(data.code);
+      setOpen(true);
+    }
   }
 
   return (
     <div className="grid grid-cols-2 w-full min-h-screen">
+      {name && code && (
+        <CodeDialog
+          name={name}
+          setName={setName}
+          expireTime="1h"
+          open={open}
+          setOpen={(value) => setOpen(value)}
+          code={code}
+        />
+      )}
+
       <div className="w-full h-full bg-emerald-600" />
       <form
         onSubmit={handleRegister}

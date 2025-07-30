@@ -8,7 +8,7 @@ export function cn(...inputs: ClassValue[]) {
 export function generateCode() {
   const numbers = new Set();
 
-  while (numbers.size < 7) {
+  while (numbers.size < 9) {
     const num = Math.floor(Math.random() * 9) + 1;
     numbers.add(num);
   }

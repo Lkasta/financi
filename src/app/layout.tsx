@@ -1,5 +1,6 @@
 import { Inter, Fira_Code } from "next/font/google";
 import { Providers } from "./Context/providers";
+import { Toaster } from "@/components/ui/sonner";
 
 import type { Metadata } from "next";
 
@@ -30,6 +31,7 @@ export default function RootLayout({
     <html lang="pt-br">
       <body className={`${inter.variable} ${firaCode.variable} antialiased`}>
         <Providers>{children}</Providers>
+        <Toaster position="top-center" />
       </body>
     </html>
   );
