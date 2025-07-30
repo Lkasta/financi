@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import { sign } from "jsonwebtoken";
-import { verifyToken } from "@/lib/verifyToken";
+import { verifyToken } from "@/lib/serverToken";
 import { cookies } from "next/headers";
 
 interface TokenPayload {
@@ -20,10 +19,8 @@ export async function POST(req: Request) {
     const decoded = verifyToken(token) as TokenPayload;
 
     if (name === decoded.name && password === decoded.code) {
-      console.log("jonas");
-
       const res = NextResponse.json({ success: true });
-
+      
       return res;
     }
   }
