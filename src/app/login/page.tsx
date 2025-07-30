@@ -9,10 +9,24 @@ import { Eye, EyeOff } from "lucide-react";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
 
+  async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    await fetch("/api/login", {
+      method: "POST",
+      body: JSON.stringify({ name, password }),
+    });
+  }
+  
   return (
     <div className="grid grid-cols-2 w-full min-h-screen">
-      <div className="max-w-96 w-full text-center m-auto space-y-8">
+      <form
+        onSubmit={handleLogin}
+        className="max-w-96 w-full text-center m-auto space-y-8"
+      >
         <p className="text-5xl text-primary font-bold">
           financ<span className="text-emerald-600">i</span>
         </p>
@@ -20,7 +34,10 @@ export default function Login() {
         <div className="space-y-3">
           <div className="space-y-1 text-left">
             <Label>Nome</Label>
-            <Input placeholder="Ex: Jonas Alves" />
+            <Input
+              placeholder="Ex: Jonas Alves"
+              onChange={(e) => setName(e.target.value)}
+            />
           </div>
 
           <div className="space-y-1 text-left">
@@ -30,9 +47,11 @@ export default function Login() {
                 type={showPassword ? "text" : "password"}
                 placeholder="•••••••••••••••"
                 className="pr-10"
+                onChange={(e) => setPassword(e.target.value)}
               />
 
               <Button
+                type="submit"
                 onClick={() => setShowPassword((prev) => !prev)}
                 variant="ghost"
                 className="flex items-center inset-y-0 right-2 absolute !bg-transparent !p-1 !ring-0 text-primary/50 hover:text-primary/30"
@@ -55,7 +74,7 @@ export default function Login() {
             Entrar
           </Button>
         </div>
-      </div>
+      </form>
 
       <div className="w-full h-full bg-emerald-600" />
     </div>
