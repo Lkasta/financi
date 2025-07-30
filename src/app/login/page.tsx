@@ -43,7 +43,7 @@ export default function Login() {
           </div>
 
           <div className="flex justify-between text-sm text-muted-foreground font-semibold">
-            <Link href="#" className="hover:underline text-emerald-600">
+            <Link href="/register" className="hover:underline text-emerald-600">
               Cadastre-se
             </Link>
             <Link href="#" className="hover:underline">

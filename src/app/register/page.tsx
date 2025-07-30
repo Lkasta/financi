@@ -26,7 +26,7 @@ export default function Register() {
           </div>
 
           <div className="flex justify-between text-sm text-muted-foreground font-semibold">
-            <Link href="#" className="hover:underline text-emerald-600">
+            <Link href="/login" className="hover:underline text-emerald-600">
               Já tenho um acesso
             </Link>
             <Link href="#" className="hover:underline">
