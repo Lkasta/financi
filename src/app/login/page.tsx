@@ -19,8 +19,8 @@ export default function Login() {
 
         <div className="space-y-3">
           <div className="space-y-1 text-left">
-            <Label>Email</Label>
-            <Input placeholder="email@mail.com" type="email" />
+            <Label>Nome</Label>
+            <Input placeholder="Ex: Jonas Alves" />
           </div>
 
           <div className="space-y-1 text-left">
