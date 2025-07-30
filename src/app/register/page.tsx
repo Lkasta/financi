@@ -1,13 +1,32 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function Register() {
+  const [name, setName] = useState("");
+
+  console.log(name);
+
+  async function handleRegister(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    await fetch("/api/register", {
+      method: "POST",
+      body: JSON.stringify({ name }),
+    })
+  }
+
   return (
     <div className="grid grid-cols-2 w-full min-h-screen">
       <div className="w-full h-full bg-emerald-600" />
-      <div className="max-w-96 w-full text-center m-auto space-y-8">
+      <form
+        onSubmit={handleRegister}
+        className="max-w-96 w-full text-center m-auto space-y-8"
+      >
         <p className="text-5xl text-primary font-bold">
           financ<span className="text-emerald-600">i</span>
         </p>
@@ -22,7 +41,11 @@ export default function Register() {
 
           <div className="space-y-1 text-left">
             <Label>Nome</Label>
-            <Input placeholder="Ex: Jonas Alves" />
+            <Input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Ex: Jonas Alves"
+            />
           </div>
 
           <div className="flex justify-between text-sm text-muted-foreground font-semibold">
@@ -34,11 +57,14 @@ export default function Register() {
             </Link>
           </div>
 
-          <Button className="w-full bg-emerald-600 hover:bg-emerald-600">
+          <Button
+            type="submit"
+            className="w-full bg-emerald-600 hover:bg-emerald-600"
+          >
             Entrar
           </Button>
         </div>
-      </div>
+      </form>
     </div>
   );
 }
