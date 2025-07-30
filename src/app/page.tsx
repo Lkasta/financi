@@ -2,7 +2,7 @@ export default function Home() {
   return (
     <div className="">
       <p className="text-primary font-bold">
-        financ<span className="text-violet-500">i</span>
+        financ<span className="text-emerald-600">i</span>
       </p>
     </div>
   );

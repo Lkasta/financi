@@ -14,7 +14,7 @@ export default function Login() {
     <div className="grid grid-cols-2 w-full min-h-screen">
       <div className="max-w-96 w-full text-center m-auto space-y-8">
         <p className="text-5xl text-primary font-bold">
-          financ<span className="text-violet-500">i</span>
+          financ<span className="text-emerald-600">i</span>
         </p>
 
         <div className="space-y-3">
@@ -43,7 +43,7 @@ export default function Login() {
           </div>
 
           <div className="flex justify-between text-sm text-muted-foreground font-semibold">
-            <Link href="#" className="hover:underline text-violet-500">
+            <Link href="#" className="hover:underline text-emerald-600">
               Cadastre-se
             </Link>
             <Link href="#" className="hover:underline">
@@ -51,13 +51,13 @@ export default function Login() {
             </Link>
           </div>
 
-          <Button className="w-full bg-violet-500 hover:bg-violet-600">
+          <Button className="w-full bg-emerald-600 hover:bg-emerald-600">
             Entrar
           </Button>
         </div>
       </div>
 
-      <div className="w-full h-full bg-violet-500" />
+      <div className="w-full h-full bg-emerald-600" />
     </div>
   );
 }
