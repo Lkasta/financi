@@ -39,7 +39,7 @@ export default function Login() {
     <div className="grid grid-cols-2 w-full min-h-screen">
       <form
         onSubmit={handleLogin}
-        className="max-w-96 w-full text-center m-auto space-y-8"
+        className="max-w-96 w-full text-center m-auto space-y-8 px-4 lg:px-0"
       >
         <p className="text-5xl text-primary font-bold">
           financ<span className="text-emerald-600">i</span>
@@ -86,7 +86,7 @@ export default function Login() {
 
           <Button
             type="submit"
-            className="w-full bg-emerald-600 hover:bg-emerald-600"
+            className="w-full bg-emerald-600 hover:bg-emerald-700"
           >
             Entrar
           </Button>

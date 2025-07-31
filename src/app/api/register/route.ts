@@ -13,7 +13,7 @@ export async function POST(req: Request) {
   const code = generateCode();
 
   const token = sign({ name, code }, process.env.JWT_SECRET!, {
-    expiresIn: "1h",
+    expiresIn: "4h",
   });
 
   const res = NextResponse.json({ success: true, code });
@@ -22,7 +22,7 @@ export async function POST(req: Request) {
     path: "/",
     httpOnly: true,
     sameSite: "lax",
-    maxAge: 3600,
+    maxAge: 3600 * 4,
   });
 
   return res;

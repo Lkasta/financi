@@ -36,7 +36,7 @@ export default function Register() {
         <CodeDialog
           name={name}
           setName={setName}
-          expireTime="1h"
+          expireTime="4h"
           open={open}
           setOpen={(value) => setOpen(value)}
           code={code}
