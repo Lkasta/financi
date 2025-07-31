@@ -1,5 +1,7 @@
 "use client";
 
+import { Loader } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
 import React, {
   createContext,
   useContext,
@@ -21,9 +23,14 @@ type AuthProviderProps = {
   children: ReactNode;
 };
 
+const publicRoutes = ["/login", "/register"];
+
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const pathname = usePathname();
+
+  const router = useRouter();
 
   const login = (user: string, token: string) => {
     setUser(user);
@@ -35,16 +42,37 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setUser(null);
     setToken(null);
     localStorage.removeItem("auth");
+    router.push("/login");
   };
+
+  const isAuthenticated = user && token;
+  const isPublic = publicRoutes.includes(pathname);
 
   useEffect(() => {
     const stored = localStorage.getItem("auth");
+
     if (stored) {
       const { user, token } = JSON.parse(stored);
       setUser(user);
       setToken(token);
     }
   }, []);
+
+  useEffect(() => {
+    if (!isAuthenticated && !isPublic) {
+      router.replace("/login");
+    }
+  }, [router, isAuthenticated, isPublic]);
+
+  if (!isAuthenticated && !isPublic) {
+    return (
+      <div className="flex justify-center items-center w-full min-h-screen">
+        <div className="m-auto">
+          <Loader className="animate-spin w-min" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <AuthContext.Provider value={{ user, token, login, logout }}>
