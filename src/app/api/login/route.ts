@@ -14,14 +14,10 @@ export async function POST(req: Request) {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
   if (token) {
-    console.log("Token existente:", token);
-
     const decoded = verifyToken(token) as TokenPayload;
 
     if (name === decoded.name && password === decoded.code) {
-      const res = NextResponse.json({ success: true });
-      
-      return res;
+      return NextResponse.json({ success: true, token });
     }
   }
   return NextResponse.json({ error: "Credenciais invalidas" }, { status: 401 });

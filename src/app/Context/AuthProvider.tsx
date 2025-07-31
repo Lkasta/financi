@@ -1,6 +1,12 @@
 "use client";
 
-import React, { createContext, ReactNode, useState, useEffect } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+} from "react";
 
 type AuthContextType = {
   user: string | null;
@@ -9,36 +15,48 @@ type AuthContextType = {
   logout: () => void;
 };
 
-const Context = createContext<AuthContextType | undefined>(undefined);
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 type AuthProviderProps = {
   children: ReactNode;
 };
 
-function AuthProvider({ children }: AuthProviderProps) {
+export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
 
   const login = (user: string, token: string) => {
     setUser(user);
     setToken(token);
+    localStorage.setItem("auth", JSON.stringify({ user, token }));
   };
 
   const logout = () => {
     setUser(null);
     setToken(null);
+    localStorage.removeItem("auth");
   };
 
-  // // Opcional: no carregamento, tentar recuperar token do cookie/localStorage
-  // useEffect(() => {
-  //   // ex: recuperar token do cookie e validar
-  // }, []);
+  useEffect(() => {
+    const stored = localStorage.getItem("auth");
+    if (stored) {
+      const { user, token } = JSON.parse(stored);
+      setUser(user);
+      setToken(token);
+    }
+  }, []);
 
   return (
-    <Context.Provider value={{ user, token, login, logout }}>
+    <AuthContext.Provider value={{ user, token, login, logout }}>
       {children}
-    </Context.Provider>
+    </AuthContext.Provider>
   );
 }
 
-export { Context, AuthProvider };
+export function useAuth() {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
+}
