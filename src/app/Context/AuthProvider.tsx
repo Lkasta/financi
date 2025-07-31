@@ -28,9 +28,12 @@ const publicRoutes = ["/login", "/register"];
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true); // Começa como true
   const pathname = usePathname();
-
   const router = useRouter();
+
+  const isAuthenticated = user && token;
+  const isPublic = publicRoutes.includes(pathname);
 
   const login = (user: string, token: string) => {
     setUser(user);
@@ -45,30 +48,38 @@ export function AuthProvider({ children }: AuthProviderProps) {
     router.push("/login");
   };
 
-  const isAuthenticated = user && token;
-  const isPublic = publicRoutes.includes(pathname);
-
   useEffect(() => {
     const stored = localStorage.getItem("auth");
 
     if (stored) {
-      const { user, token } = JSON.parse(stored);
-      setUser(user);
-      setToken(token);
+      try {
+        const { user, token } = JSON.parse(stored);
+        setUser(user);
+        setToken(token);
+      } catch (error) {
+        console.error("Erro ao fazer parse do auth:", error);
+        localStorage.removeItem("auth");
+      }
     }
+
+    setLoading(false);
   }, []);
 
   useEffect(() => {
+    if (loading) return;
+
     if (!isAuthenticated && !isPublic) {
       router.replace("/login");
+    } else if (isAuthenticated && isPublic) {
+      router.replace("/");
     }
-  }, [router, isAuthenticated, isPublic]);
+  }, [user, token, pathname, router, loading, isAuthenticated, isPublic]);
 
-  if (!isAuthenticated && !isPublic) {
+  if (!isAuthenticated && !isPublic || loading) {
     return (
       <div className="flex justify-center items-center w-full min-h-screen">
         <div className="m-auto">
-          <Loader className="animate-spin w-min" />
+          <Loader className="animate-spin w-6 h-6" />
         </div>
       </div>
     );
