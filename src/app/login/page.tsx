@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Eye, EyeOff } from "lucide-react";
 
 import Link from "next/link";
-import { useAuth } from "../context/AuthProvider";
+import { useAuth } from "@/app/context/AuthProvider";
 import { redirect } from "next/navigation";
 import { toast } from "sonner";
 

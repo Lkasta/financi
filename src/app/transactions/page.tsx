@@ -7,7 +7,7 @@ import { themeQuartz, ColDef } from "ag-grid-community";
 import transactions from "@/data/transactions.json";
 
 type Transaction = {
-  date: string;
+  date: number;
   amount: string;
   transaction_type: string;
   currency: string;
@@ -17,7 +17,7 @@ type Transaction = {
 };
 
 const initialValues: Transaction = {
-  date: "",
+  date: 0,
   amount: "",
   transaction_type: "",
   currency: "",
