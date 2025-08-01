@@ -1,12 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
-import { format } from "date-fns";
 import { AgGridReact } from "ag-grid-react";
 import { themeQuartz, ColDef } from "ag-grid-community";
 
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
+
 import transactions from "@/data/transactions.json";
 
-type Transaction = {
+export type Transaction = {
   date: number;
   amount: string;
   transaction_type: string;
@@ -16,7 +18,7 @@ type Transaction = {
   state: string;
 };
 
-const initialValues: Transaction = {
+export const initialValues: Transaction = {
   date: 0,
   amount: "",
   transaction_type: "",
@@ -34,7 +36,7 @@ export default function Transactions() {
       field: "date",
       headerName: "Data",
       flex: 1,
-      valueFormatter: (e) => e.value && format(e.value, "dd/MM/yyyy"),
+      valueFormatter: (e) => e.value && format(e.value, "dd 'de' MMM 'de' yyyy", {locale: ptBR}),
     },
     { field: "amount", headerName: "Valor", flex: 1 },
     { field: "transaction_type", headerName: "Tipo de Transação", flex: 1 },

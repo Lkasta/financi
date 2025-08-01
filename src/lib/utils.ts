@@ -15,3 +15,14 @@ export function generateCode() {
 
   return Array.from(numbers).join("");
 }
+
+export function formatCurrency(valor: number): string {
+  return valor.toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  });
+}
+
+export function formatNumber(valor: number): string {
+  return valor.toLocaleString("pt-BR");
+}

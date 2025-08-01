@@ -31,7 +31,7 @@ export default function RootLayout({
 
   return (
     <html lang="pt-br">
-      <body className={`${inter.variable} ${firaCode.variable} antialiased`}>
+      <body className={`${inter.variable} ${firaCode.variable} font-sans antialiased bg-gray-50`}>
         <Providers>
           <Navbar />
           {children}
