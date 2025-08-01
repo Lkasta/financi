@@ -1,6 +1,7 @@
 "use client";
 
 import { Loader } from "lucide-react";
+import { publicRoutes } from "@/data/routes";
 import { usePathname, useRouter } from "next/navigation";
 import React, {
   createContext,
@@ -22,8 +23,6 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 type AuthProviderProps = {
   children: ReactNode;
 };
-
-const publicRoutes = ["/login", "/register"];
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<string | null>(null);
@@ -75,7 +74,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }, [user, token, pathname, router, loading, isAuthenticated, isPublic]);
 
-  if (!isAuthenticated && !isPublic || loading) {
+  if ((!isAuthenticated && !isPublic) || loading) {
     return (
       <div className="flex justify-center items-center w-full min-h-screen">
         <div className="m-auto">

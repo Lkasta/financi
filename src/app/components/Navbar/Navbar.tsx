@@ -11,7 +11,7 @@ import { LogOut } from "lucide-react";
 import { useAuth } from "@/app/Context/AuthProvider";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
-import { routes } from "@/data/routes";
+import { publicRoutes, routes } from "@/data/routes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
@@ -19,6 +19,11 @@ import React from "react";
 export function Navbar() {
   const auth = useAuth();
   const pathname = usePathname();
+  const isPublic = publicRoutes.includes(pathname);
+
+  if (isPublic) {
+    return;
+  }
 
   return (
     <nav className="w-full border-b backdrop-blur fixed top-0 z-50">

@@ -5,6 +5,7 @@ import { Navbar } from "./components/Navbar/Navbar";
 import type { Metadata } from "next";
 
 import "./globals.css";
+import React from "react";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -27,6 +28,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="pt-br">
       <body className={`${inter.variable} ${firaCode.variable} antialiased`}>
