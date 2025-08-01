@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/popover";
 import { LogOut } from "lucide-react";
 
-import { useAuth } from "@/app/context/AuthProvider";
+import { useAuth } from "@/app/Context/AuthProvider";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 import { routes } from "@/data/routes";
