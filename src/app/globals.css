@@ -124,12 +124,12 @@
   }
 
   ::selection {
-    background-color: var(--selection-bg);
-    color: var(--selection-text);
+    background-color: var(--selection-bg) !important;
+    color: var(--selection-text) !important;
   }
 
   ::-moz-selection {
-    background-color: var(--selection-bg);
-    color: var(--selection-text);
+    background-color: var(--selection-bg) !important;
+    color: var(--selection-text) !important;
   }
 }
