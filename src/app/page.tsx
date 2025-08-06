@@ -18,7 +18,7 @@ import {
   formatAbbreviatedNumber,
 } from "@/lib/utils";
 import { EmojiProvider, Emoji } from "react-apple-emojis";
-import { Transaction, initialValues } from "./transactions/page";
+import { Transaction } from "./transactions/page";
 
 import transactions from "@/data/transactions.json";
 
@@ -51,7 +51,17 @@ type Props = {
 
 export default function Home() {
   const auth = useAuth();
-  const [dados, setDados] = useState<Transaction[]>([initialValues]);
+  const [dados, setDados] = useState<Transaction[]>([
+    {
+      date: 0,
+      amount: "",
+      transaction_type: "",
+      currency: "",
+      account: "",
+      industry: "",
+      state: "",
+    },
+  ]);
 
   useEffect(() => {
     setDados(transactions as Transaction[]);

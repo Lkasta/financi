@@ -18,25 +18,26 @@ export type Transaction = {
   state: string;
 };
 
-export const initialValues: Transaction = {
-  date: 0,
-  amount: "",
-  transaction_type: "",
-  currency: "",
-  account: "",
-  industry: "",
-  state: "",
-};
-
 export default function Transactions() {
-  const [dados, setDados] = useState<Transaction[]>([initialValues]);
+  const [dados, setDados] = useState<Transaction[]>([
+    {
+      date: 0,
+      amount: "",
+      transaction_type: "",
+      currency: "",
+      account: "",
+      industry: "",
+      state: "",
+    },
+  ]);
 
   const [colDefs] = useState<ColDef<Transaction>[]>([
     {
       field: "date",
       headerName: "Data",
       flex: 1,
-      valueFormatter: (e) => e.value && format(e.value, "dd 'de' MMM 'de' yyyy", {locale: ptBR}),
+      valueFormatter: (e) =>
+        e.value && format(e.value, "dd 'de' MMM 'de' yyyy", { locale: ptBR }),
     },
     { field: "amount", headerName: "Valor", flex: 1 },
     { field: "transaction_type", headerName: "Tipo de Transação", flex: 1 },
@@ -51,7 +52,7 @@ export default function Transactions() {
   }, []);
 
   return (
-    <div className="container mx-auto w-ful min-h-screen pt-14 px-4">
+    <div className="container mx-auto w-full min-h-screen pt-14 px-4">
       <div className="w-full h-[750px] rounded-xl shadow-md">
         <AgGridReact
           rowHeight={44}
