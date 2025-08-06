@@ -12,7 +12,11 @@ import Rocket from "../../public/Rocket.webp";
 import emojiData from "react-apple-emojis/src/data.json";
 
 import { useEffect, useState } from "react";
-import { formatNumber, formatCurrency } from "@/lib/utils";
+import {
+  formatNumber,
+  formatCurrency,
+  formatAbbreviatedNumber,
+} from "@/lib/utils";
 import { EmojiProvider, Emoji } from "react-apple-emojis";
 import { Transaction, initialValues } from "./transactions/page";
 
@@ -21,6 +25,11 @@ import transactions from "@/data/transactions.json";
 import Image from "next/image";
 import { Repeat, TrendingDown, TrendingUp, Users } from "lucide-react";
 
+import ChartBar from "./components/Charts/BarChart";
+import { ChartData, TooltipItem } from "chart.js";
+import LineChart from "./components/Charts/LineChart";
+import { format } from "date-fns";
+
 type transactionTypes = "withdraw" | "deposit";
 
 type Props = {
@@ -28,6 +37,16 @@ type Props = {
   deposit: number;
   total: number;
   companies: string[];
+  comp: {
+    companie: string;
+    income: number;
+    expense: number;
+  }[];
+  weekdayTransactions: {
+    dayOfWeek: string;
+    value: number;
+    count: number;
+  }[];
 };
 
 export default function Home() {
@@ -37,6 +56,8 @@ export default function Home() {
   useEffect(() => {
     setDados(transactions as Transaction[]);
   }, []);
+
+  const weekdayMap = new Map();
 
   const wallet = dados.reduce(
     (acc, data) => {
@@ -50,9 +71,39 @@ export default function Home() {
       acc.total += 1;
 
       // Clientes
-      const industry = data.account as string;
-      if (!acc.companies.includes(industry)) {
-        acc.companies.push(industry);
+      const account = data.account as string;
+      if (!acc.companies.includes(account)) {
+        acc.companies.push(account);
+      }
+
+      const companie = acc.comp.find((comp) => comp.companie == data.industry);
+      if (companie?.companie) {
+        if (transactionType == "deposit") {
+          companie.income += Number(data.amount);
+        } else {
+          companie.expense += Number(data.amount);
+        }
+      } else {
+        acc.comp.push({
+          companie: data.industry,
+          income: 0,
+          expense: 0,
+        });
+      }
+
+      // Type per Data
+      const weekdayKey = format(data.date, "i");
+      if (weekdayMap.has(weekdayKey)) {
+        weekdayMap.get(weekdayKey).value += Number(data.amount);
+        weekdayMap.get(weekdayKey).count += 1;
+      } else {
+        const weekdayData = {
+          dayOfWeek: weekdayKey,
+          value: Number(data.amount),
+          count: 1,
+        };
+        weekdayMap.set(weekdayKey, weekdayData);
+        acc.weekdayTransactions.push(weekdayData);
       }
 
       return acc;
@@ -61,9 +112,84 @@ export default function Home() {
       withdraw: 0,
       deposit: 0,
       total: 0,
-      companies: [""],
+      companies: [],
+      comp: [],
+      weekdayTransactions: [],
     } as Props
   );
+
+  const data = {
+    labels: wallet.comp.map((item) =>
+      item.companie.length > 10
+        ? item.companie.slice(0, 4) + "..."
+        : item.companie
+    ),
+    datasets: [
+      {
+        label: "Vendas",
+        data: wallet.comp.map((item) => item.expense),
+        backgroundColor: "oklch(69.6% 0.17 162.48)",
+      },
+    ],
+  };
+
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: false,
+        position: "top" as const,
+      },
+      title: {
+        display: false,
+        text: "Gráfico de Vendas",
+      },
+      tooltip: {
+        callbacks: {
+          title: function (context: TooltipItem<"bar">[]) {
+            const index = context[0].dataIndex;
+            return wallet.comp[index].companie;
+          },
+          label: function (context: TooltipItem<"bar">) {
+            return `Vendas: ${formatCurrency(context.parsed.y)}`;
+          },
+        },
+      },
+    },
+    scales: {
+      y: {
+        ticks: {
+          callback: function (
+            tickValue: string | number
+          ): string | number | null {
+            if (typeof tickValue === "number") {
+              return formatAbbreviatedNumber(tickValue);
+            }
+            return tickValue;
+          },
+        },
+      },
+    },
+  };
+
+  const weekdayNames = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"];
+
+  const sampleData: ChartData<"line"> = {
+    labels: wallet.weekdayTransactions
+      .sort((a, b) => Number(a.dayOfWeek) - Number(b.dayOfWeek))
+      .map((item) => weekdayNames[Number(item.dayOfWeek) - 1]),
+    datasets: [
+      {
+        label: "Volume de Transações",
+        data: wallet.weekdayTransactions
+          .sort((a, b) => Number(a.dayOfWeek) - Number(b.dayOfWeek))
+          .map((item) => item.value),
+        borderColor: "oklch(69.6% 0.17 162.48)",
+        backgroundColor: "oklch(69.6% 0.17 162.48 / 0.2)",
+        fill: true,
+      },
+    ],
+  };
 
   return (
     <section className="container grid grid-cols-9 gap-4 mx-auto w-full items-stretch pt-14 px-4">
@@ -156,6 +282,16 @@ export default function Home() {
             </div>
           </div>
         </CardContent>
+      </Card>
+      <Card className="col-span-3 h-80 pb-0">
+        <CardHeader>Empresas</CardHeader>
+        <CardContent className="h-full">
+          <ChartBar options={options} data={data} />
+        </CardContent>
+      </Card>
+      <Card className="col-span-3 h-80 pb-0">
+        <CardHeader>Jonas</CardHeader>
+        <LineChart data={sampleData} className="h-64" />
       </Card>
     </section>
   );
