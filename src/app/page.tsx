@@ -29,6 +29,7 @@ import ChartBar from "./components/Charts/BarChart";
 import { ChartData, TooltipItem } from "chart.js";
 import LineChart from "./components/Charts/LineChart";
 import { format } from "date-fns";
+import PieChart from "./components/Charts/PieChart";
 
 type transactionTypes = "withdraw" | "deposit";
 
@@ -182,9 +183,27 @@ export default function Home() {
     },
   };
 
-  const weekdayNames = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"];
+  const weekdayNames = [
+    "Segunda",
+    "Terça",
+    "Quarta",
+    "Quinta",
+    "Sexta",
+    "Sábado",
+    "Domingo",
+  ];
 
-  const sampleData: ChartData<"line"> = {
+  const greenGradient = [
+    "oklch(69.6% 0.10 135)",
+    "oklch(69.6% 0.10 150)",
+    "oklch(69.6% 0.10 145)",
+    "oklch(69.6% 0.15 150)",
+    "oklch(69.6% 0.17 162)",
+    "oklch(69.6% 0.25 170)",
+    "oklch(69.6% 0.30 180)",
+  ];
+
+  const sampleData: ChartData<"pie"> = {
     labels: wallet.weekdayTransactions
       .sort((a, b) => Number(a.dayOfWeek) - Number(b.dayOfWeek))
       .map((item) => weekdayNames[Number(item.dayOfWeek) - 1]),
@@ -194,9 +213,13 @@ export default function Home() {
         data: wallet.weekdayTransactions
           .sort((a, b) => Number(a.dayOfWeek) - Number(b.dayOfWeek))
           .map((item) => item.value),
-        borderColor: "oklch(69.6% 0.17 162.48)",
-        backgroundColor: "oklch(69.6% 0.17 162.48 / 0.2)",
-        fill: true,
+        backgroundColor: greenGradient,
+        borderColor: "#fff",
+        borderWidth: 2,
+        hoverBackgroundColor: greenGradient.map((color) =>
+          color.replace("oklch(", "oklch(").replace(")", " / 0.8)")
+        ),
+        hoverBorderWidth: 3,
       },
     ],
   };
@@ -293,15 +316,15 @@ export default function Home() {
           </div>
         </CardContent>
       </Card>
-      <Card className="col-span-3 h-80 pb-0">
+      <Card className="col-span-3 h-96 pb-0">
         <CardHeader>Empresas</CardHeader>
         <CardContent className="h-full">
           <ChartBar options={options} data={data} />
         </CardContent>
       </Card>
-      <Card className="col-span-3 h-80 pb-0">
-        <CardHeader>Jonas</CardHeader>
-        <LineChart data={sampleData} className="h-64" />
+      <Card className="col-span-3 pb-0">
+        <CardHeader>Jonass</CardHeader>
+        <PieChart data={sampleData} className="h-64" />
       </Card>
     </section>
   );
