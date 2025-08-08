@@ -27,7 +27,7 @@ export function Resume({ revenue, expense, margin, average }: Props) {
       <CardHeader>
         <h5 className="text-secondary-foreground">Resumo</h5>
         <CardDescription className="mr-14">
-          Valor total gasto no período selecionado
+          Indicadores financeiros com base nas transações do período.
         </CardDescription>
       </CardHeader>
       <CardContent className="grid grid-cols-2 space-x-0 gap-y-4">

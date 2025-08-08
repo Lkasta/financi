@@ -40,11 +40,11 @@ export default function Dashboard() {
 
       return acc;
     },
-    { revenue: 0, expense: 0 }
+    { revenue: 0, expense: 0 } as Props
   );
 
   const totalProfit = dashboard.revenue - dashboard.expense;
-  console.log(totalProfit, dashboard.revenue)
+  console.log(totalProfit, dashboard.revenue);
   const margin = (totalProfit / dashboard.revenue) * 100;
 
   return (
