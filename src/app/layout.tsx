@@ -28,10 +28,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   return (
     <html lang="pt-br">
-      <body className={`${inter.variable} ${firaCode.variable} font-sans antialiased bg-gray-50`}>
+      <body
+        className={`${inter.variable} ${firaCode.variable} font-sans antialiased bg-gray-50`}
+      >
         <Providers>
           <Navbar />
           {children}

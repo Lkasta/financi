@@ -5,31 +5,24 @@ import {
   CardDescription,
   CardHeader,
 } from "@/components/ui/card";
-
-import { useAuth } from "./Context/AuthProvider";
-
-import Rocket from "../../public/Rocket.webp";
-import emojiData from "react-apple-emojis/src/data.json";
-
 import { useEffect, useState } from "react";
 import {
   formatNumber,
   formatCurrency,
   formatAbbreviatedNumber,
 } from "@/lib/utils";
-import { EmojiProvider, Emoji } from "react-apple-emojis";
+
 import { Transaction } from "./transactions/page";
 
 import transactions from "@/data/transactions.json";
 
-import Image from "next/image";
 import { Repeat, TrendingDown, TrendingUp, Users } from "lucide-react";
 
 import ChartBar from "./components/Charts/BarChart";
 import { ChartData, TooltipItem } from "chart.js";
-import LineChart from "./components/Charts/LineChart";
 import { format } from "date-fns";
 import PieChart from "./components/Charts/PieChart";
+import Dashboard from "./layouts/DashboardLayout/Dashboard";
 
 type transactionTypes = "withdraw" | "deposit";
 
@@ -51,7 +44,6 @@ type Props = {
 };
 
 export default function Home() {
-  const auth = useAuth();
   const [dados, setDados] = useState<Transaction[]>([
     {
       date: 0,
@@ -224,40 +216,10 @@ export default function Home() {
     ],
   };
 
+  return <Dashboard />;
+
   return (
     <section className="container grid grid-cols-9 gap-4 mx-auto w-full items-stretch pt-14 px-4">
-      <Card className="col-span-full md:col-span-4 xl:col-span-3 h-full">
-        <CardHeader>
-          <div className="flex items-center gap-x-2 !my-0">
-            <h5 className="text-secondary-foreground">Olá {auth.user}</h5>
-            <EmojiProvider data={emojiData}>
-              <Emoji className="w-4 h-4" name="rocket" />
-            </EmojiProvider>
-          </div>
-          <CardDescription className="mr-14">
-            Vamos analisar sua receita total ao longo de todo tempo informado.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="flex gap-8 mt-auto">
-          <div className="flex-1 mt-auto">
-            <p className="text-sm text-muted-foreground font-medium">
-              Receita total
-            </p>
-            <h1 className="text-3xl md:text-2xl lg:text-4xl font-bold text-emerald-500">
-              {formatCurrency(wallet.deposit - wallet.withdraw)}
-            </h1>
-          </div>
-          <div className="flex-shrink-0 -mt-10 -ml-2 select-none pointer-events-none">
-            <Image
-              src={Rocket}
-              width={90}
-              height={5}
-              alt="Rocket"
-              className="object-contain"
-            />
-          </div>
-        </CardContent>
-      </Card>
       <Card className="col-span-full md:col-span-5 xl:col-span-6">
         <CardHeader>
           <h5 className="text-secondary-foreground">Resumo</h5>
