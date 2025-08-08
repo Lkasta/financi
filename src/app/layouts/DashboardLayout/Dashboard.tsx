@@ -44,8 +44,8 @@ export default function Dashboard() {
   );
 
   const totalProfit = dashboard.revenue - dashboard.expense;
-  console.log(totalProfit, dashboard.revenue);
   const margin = (totalProfit / dashboard.revenue) * 100;
+  const average = dashboard.revenue / transactionsData.length;
 
   return (
     <section className="container grid grid-cols-9 gap-4 mx-auto w-full items-stretch pt-14 px-4">
@@ -54,7 +54,7 @@ export default function Dashboard() {
         revenue={dashboard.revenue}
         expense={dashboard.expense}
         margin={margin}
-        average={99}
+        average={average}
       />
     </section>
   );
