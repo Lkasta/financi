@@ -52,7 +52,11 @@ export function Resume({ revenue, expense, margin, average }: Props) {
                 <h3 className="font-medium text-nowrap text-secondary-foreground">
                   {item.title}
                 </h3>
-                <p>{formatCurrency(item.value)}</p>
+                <p>
+                  {item.title === "Margem"
+                    ? `${item.value.toFixed(2)}%`
+                    : formatCurrency(item.value)}
+                </p>
               </div>
             </div>
           );
