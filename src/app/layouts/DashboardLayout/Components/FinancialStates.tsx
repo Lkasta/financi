@@ -26,9 +26,7 @@ export function FinancialStates({ states }: Props) {
   const sortedStates = getTop5States(states);
 
   const data = {
-    labels: sortedStates.map((item) =>
-      item.state.length > 10 ? item.state.slice(0, 4) + "..." : item.state
-    ),
+    labels: sortedStates.map((item) => item.state),
     datasets: [
       {
         label: "Receita",
@@ -60,7 +58,7 @@ export function FinancialStates({ states }: Props) {
         callbacks: {
           title: function (context: TooltipItem<"bar">[]) {
             const index = context[0].dataIndex;
-            return states[index].state;
+            return sortedStates[index].state;
           },
           label: function (context: TooltipItem<"bar">) {
             const label = context.dataset.label || "";
@@ -92,7 +90,7 @@ export function FinancialStates({ states }: Props) {
   return (
     <Card className="col-span-3 h-[400px]">
       <CardHeader>
-        <h5 className="text-secondary-foreground">Resumo</h5>
+        <h5 className="text-secondary-foreground">Estados Líderes</h5>
         <CardDescription>
           Ranking dos 5 estados com maiores valores de entrada e saída.
         </CardDescription>
