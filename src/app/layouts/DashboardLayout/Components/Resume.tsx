@@ -23,11 +23,11 @@ export function Resume({ revenue, expense, margin, average }: Props) {
     { title: "Ticket Médio", value: average, icon: GaugeCircle },
   ];
   return (
-    <Card className="col-span-full md:col-span-5 xl:col-span-6">
+    <Card className="col-span-full md:col-span-5 xl:col-span-7">
       <CardHeader>
         <h5 className="text-secondary-foreground">Resumo</h5>
         <CardDescription className="mr-14">
-          Valor total gasto no período selecionado
+          Indicadores financeiros com base nas transações do período.
         </CardDescription>
       </CardHeader>
       <CardContent className="grid grid-cols-2 space-x-0 gap-y-4">
@@ -52,7 +52,11 @@ export function Resume({ revenue, expense, margin, average }: Props) {
                 <h3 className="font-medium text-nowrap text-secondary-foreground">
                   {item.title}
                 </h3>
-                <p>{formatCurrency(item.value)}</p>
+                <p>
+                  {item.title === "Margem"
+                    ? `${item.value.toFixed(2)}%`
+                    : formatCurrency(item.value)}
+                </p>
               </div>
             </div>
           );
