@@ -33,24 +33,6 @@ export function Navbar() {
             financ<span className="text-emerald-600">i</span>
           </p>
         </div>
-        <div className="flex gap-2">
-          {routes.map(({ path, name, icon }) => {
-            const active = true ? pathname == path : false;
-            const Icon = icon;
-            return (
-              <Link
-                key={path}
-                href={path}
-                className={`flex gap-2 items-center px-2 py-1 rounded transition-all text-sm ${
-                  active ? "bg-emerald-500 text-white" : "hover:bg-gray-200"
-                }`}
-              >
-                <Icon size={14} />
-                {name}
-              </Link>
-            );
-          })}
-        </div>
         <Popover>
           <PopoverTrigger>
             <Avatar>
@@ -69,6 +51,26 @@ export function Navbar() {
             </Button>
           </PopoverContent>
         </Popover>
+      </div>
+      <div className="w-full flex items-center justify-center border-t py-1.5">
+        <div className="flex gap-2">
+          {routes.map(({ path, name, icon }) => {
+            const active = true ? pathname == path : false;
+            const Icon = icon;
+            return (
+              <Link
+                key={path}
+                href={path}
+                className={`flex gap-2 items-center px-2 py-1 rounded transition-all text-sm ${
+                  active ? "bg-emerald-500 text-white" : "hover:bg-gray-200"
+                }`}
+              >
+                <Icon size={14} />
+                {name}
+              </Link>
+            );
+          })}
+        </div>
       </div>
     </nav>
   );
