@@ -124,7 +124,7 @@ export default function Dashboard() {
   console.log(dashboard.monthlyBalances);
 
   return (
-    <section className="container grid grid-cols-10 auto-rows-min gap-4 grid-rows-[auto_1fr] mx-auto w-full items-stretch pt-14 px-4">
+    <section className="container grid grid-cols-10 auto-rows-min gap-4 grid-rows-[auto_1fr] mx-auto w-full items-stretch px-4">
       <Profit totalProfit={totalProfit} />
       <Resume
         revenue={dashboard.revenue}

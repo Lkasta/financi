@@ -52,7 +52,7 @@ export default function Transactions() {
   }, []);
 
   return (
-    <div className="container mx-auto w-full min-h-screen pt-14 px-4">
+    <div className="container mx-auto w-full min-h-screen px-4">
       <div className="w-full h-[750px] rounded-xl shadow-md">
         <AgGridReact
           rowHeight={44}
