@@ -8,12 +8,25 @@ import {
   FinancialStates,
   FinancialStatesProps,
 } from "./Components/FinancialStates";
+import { FinancialRadar } from "./Components/FinancialRadar";
+import { TotalClients } from "./Components/TotalClients";
+import { TotalTransactions } from "./Components/TotalTransactions";
+import { format } from "date-fns";
+import { MonthlyBalance } from "./Components/MonthlyBalance";
+
+type MonthlyBalance = {
+  month: string;
+  value: number;
+};
 
 type Props = {
   revenue: number;
   expense: number;
   customers: string[];
   states: FinancialStatesProps[];
+  totalTransactions: number;
+  trendRatio: number;
+  monthlyBalances: MonthlyBalance[];
 };
 
 export default function Dashboard() {
@@ -68,18 +81,50 @@ export default function Dashboard() {
         acc.states.push(newState);
       }
 
+      // Total de transações
+      acc.totalTransactions += 1;
+
+      // Indicador de tendência (proporção entradas vs saídas)
+      acc.trendRatio = acc.expense > 0 ? acc.revenue / acc.expense : 0;
+
+      // Média de saldo por mês
+      const monthKey = format(data.date, "MM");
+      const monthItem = acc.monthlyBalances.find((m) => m.month === monthKey);
+
+      if (monthItem) {
+        monthItem.value +=
+          transactionType === "deposit" ? transactionValue : -transactionValue;
+      } else {
+        acc.monthlyBalances.push({
+          month: monthKey,
+          value:
+            transactionType === "deposit"
+              ? transactionValue
+              : -transactionValue,
+        });
+      }
+
       return acc;
     },
-    { revenue: 0, expense: 0, customers: [], states: [] } as Props
+    {
+      revenue: 0,
+      expense: 0,
+      customers: [],
+      states: [],
+      totalTransactions: 0,
+      trendRatio: 0,
+      monthlyBalances: [],
+    } as Props
   );
 
   const totalProfit = dashboard.revenue - dashboard.expense;
   const margin = (totalProfit / dashboard.revenue) * 100;
   const average = dashboard.revenue / transactionsData.length;
-  console.log(dashboard.states);
+
+  console.log(dashboard.monthlyBalances);
 
   return (
-    <section className="container grid grid-cols-9 gap-4 mx-auto w-full items-stretch pt-14 px-4">
+    <section className="container grid grid-cols-10 auto-rows-min gap-4 grid-rows-[auto_1fr] mx-auto w-full items-stretch pt-14 px-4">
       <Profit totalProfit={totalProfit} />
       <Resume
         revenue={dashboard.revenue}
@@ -88,6 +133,14 @@ export default function Dashboard() {
         average={average}
       />
       <FinancialStates states={dashboard.states} />
+      <FinancialRadar revenue={dashboard.revenue} expense={dashboard.expense} />
+      <div className="col-span-4 h-full flex flex-col gap-4">
+        <div className="w-full h-min flex gap-4">
+          <TotalClients totalClients={dashboard.customers.length} />
+          <TotalTransactions totalClients={dashboard.totalTransactions} />
+        </div>
+        <MonthlyBalance monthlyBalances={dashboard.monthlyBalances} />
+      </div>
     </section>
   );
 }

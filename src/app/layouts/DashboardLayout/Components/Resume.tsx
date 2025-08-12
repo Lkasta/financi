@@ -23,7 +23,7 @@ export function Resume({ revenue, expense, margin, average }: Props) {
     { title: "Ticket Médio", value: average, icon: GaugeCircle },
   ];
   return (
-    <Card className="col-span-full md:col-span-5 xl:col-span-6">
+    <Card className="col-span-full md:col-span-5 xl:col-span-7">
       <CardHeader>
         <h5 className="text-secondary-foreground">Resumo</h5>
         <CardDescription className="mr-14">
