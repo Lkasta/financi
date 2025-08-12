@@ -88,14 +88,14 @@ export function FinancialStates({ states }: Props) {
   };
 
   return (
-    <Card className="col-span-3 h-[400px]">
+    <Card className="col-span-3">
       <CardHeader>
         <h5 className="text-secondary-foreground">Estados Líderes</h5>
         <CardDescription>
           Ranking dos 5 estados com maiores valores de entrada e saída.
         </CardDescription>
       </CardHeader>
-      <CardContent className="h-full -mt-5 -mb-3 pt-0">
+      <CardContent className="h-[400px] -mt-5 -mb-3 pt-0">
         <ChartBar options={options} data={data} />
       </CardContent>
     </Card>
