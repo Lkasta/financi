@@ -155,7 +155,7 @@ export default function LineChart({
       className={`w-full h-full overflow-hidden ${className}`}
       style={{ margin: 0, padding: 0 }}
     >
-      <Line className="scale-[101.3%]" data={data} options={mergedOptions} />
+      <Line className="scale-[101.3%] -mb-1" data={data} options={mergedOptions} />
     </div>
   );
 }
