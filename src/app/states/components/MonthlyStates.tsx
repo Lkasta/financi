@@ -1,59 +1,70 @@
-import { Card, CardDescription, CardHeader } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+} from "@/components/ui/card";
+import { Bar, BarChart, XAxis, YAxis } from "recharts";
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
-  ChartTooltipContent,
 } from "@/components/ui/chart";
+import CustomTooltip from "./CustomStateTooltip";
+import { StatesProps } from "../page";
 
-import { Area, AreaChart, Dot } from "recharts";
+export const description = "A stacked bar chart with a legend";
 
-const chartData = [
-  { month: "January", desktop: 186 },
-  { month: "February", desktop: 305 },
-  { month: "March", desktop: 237 },
-  { month: "April", desktop: 73 },
-  { month: "May", desktop: 209 },
-  { month: "June", desktop: 214 },
-];
-const chartConfig = {
+export const chartConfig = {
   desktop: {
     label: "Desktop",
     color: "var(--chart-1)",
   },
+  mobile: {
+    label: "Mobile",
+    color: "var(--chart-2)",
+  },
 } satisfies ChartConfig;
 
-export function MonthlyStates() {
+type Props = {
+  states: StatesProps[];
+};
+
+export function MonthlyStates({ states }: Props) {
   return (
-    <Card className="col-span-2 !mb-0 ">
+    <Card className="col-span-2 ">
       <CardHeader>
-        <h5 className="text-secondary-foreground">Evolução Mensal</h5>
-        <CardDescription>Descricaaaaaao</CardDescription>
+        <h5 className="text-secondary-foreground">Comparação por estado</h5>
+        <CardDescription>Comparativo do desempenho financeiro dos estados com base no período.</CardDescription>
       </CardHeader>
-      <ChartContainer config={chartConfig} className="h-full scale-[101%]">
-        <AreaChart
-          data={chartData}
-          margin={{
-            left: 0,
-            right: 0,
-          }}
-        >
-          <ChartTooltip
-            cursor={false}
-            content={<ChartTooltipContent indicator="line" />}
-          />
-          <Area
-            dataKey="desktop"
-            type="natural"
-            fill="#009966"
-            fillOpacity={0.4}
-            stroke="#009966"
-            dot={({ ...props }) => {
-              return <Dot r={3} cx={props.cx} cy={props.cy} fill="#009966" />;
-            }}
-          />
-        </AreaChart>
-      </ChartContainer>
+      <CardContent className="w-full h-full pb-15">
+        <ChartContainer className="w-full h-full" config={chartConfig}>
+          <BarChart accessibilityLayer data={states}>
+            <XAxis dataKey="state" hide />
+            <YAxis
+              domain={[0, (dataMax: number) => dataMax * 1.05]}
+              tick={false}
+              axisLine={false}
+              width={0}
+            />
+            <ChartTooltip content={<CustomTooltip />} />
+            <Bar
+              dataKey="expenseTotal"
+              name="Despesas"
+              stackId="a"
+              fill="var(--color-chart-5)"
+              radius={[4, 4, 4, 4]}
+            />
+            <Bar
+              dataKey="revenueTotal"
+              name="Receitas"
+              stackId="a"
+              fill="var(--color-chart-1)"
+              radius={[4, 4, 4, 4]}
+            />
+          </BarChart>
+        </ChartContainer>
+      </CardContent>
     </Card>
   );
 }
