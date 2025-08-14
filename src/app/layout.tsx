@@ -1,7 +1,7 @@
 import { Inter, Fira_Code } from "next/font/google";
-import { Providers } from "./Context/providers";
-import { Toaster } from "@/components/ui/sonner";
 import { Navbar } from "./components/Navbar/Navbar";
+import { Toaster } from "@/components/ui/sonner";
+import { Providers } from "./Context/providers";
 import type { Metadata } from "next";
 
 import "./globals.css";
