@@ -16,6 +16,15 @@ export function generateCode() {
   return Array.from(numbers).join("");
 }
 
+export function handleDivision(numerator: number, denominator: number) {
+  if (!denominator || isNaN(denominator)) return 0;
+  return numerator / denominator;
+}
+
+export function handlePercentage(part: number, total: number, minValue = 0) {
+  return Math.max(handleDivision(part, total) * 100, minValue);
+}
+
 export function formatCurrency(valor: number): string {
   return valor.toLocaleString("pt-BR", {
     style: "currency",
@@ -23,7 +32,13 @@ export function formatCurrency(valor: number): string {
   });
 }
 
-export function formatNumber(valor: number): string {
+export function formatNumber(valor: number, toFixed?: number) {
+  if (typeof toFixed === "number") {
+    return valor.toLocaleString("pt-BR", {
+      minimumFractionDigits: toFixed,
+      maximumFractionDigits: toFixed,
+    });
+  }
   return valor.toLocaleString("pt-BR");
 }
 
