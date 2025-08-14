@@ -1,3 +1,4 @@
+"use client"
 import { useEffect, useState } from "react";
 import { Resume } from "./Components/Resume";
 import { Profit } from "./Components/Profit";
@@ -121,10 +122,8 @@ export default function Dashboard() {
   const margin = (totalProfit / dashboard.revenue) * 100;
   const average = dashboard.revenue / transactionsData.length;
 
-  console.log(dashboard.monthlyBalances);
-
   return (
-    <section className="container grid grid-cols-10 auto-rows-min gap-4 grid-rows-[auto_1fr] mx-auto w-full items-stretch px-4">
+    <section className="container grid grid-cols-10 pt-8 auto-rows-min gap-4 grid-rows-[auto_1fr] mx-auto w-full items-stretch px-4">
       <Profit totalProfit={totalProfit} />
       <Resume
         revenue={dashboard.revenue}

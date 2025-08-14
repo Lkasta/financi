@@ -6,6 +6,7 @@ import type { Metadata } from "next";
 
 import "./globals.css";
 import React from "react";
+import RoutesLayout from "./components/RoutesLayout";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -35,7 +36,7 @@ export default function RootLayout({
       >
         <Providers>
           <Navbar />
-          <div className="pt-24">{children}</div>
+          <RoutesLayout>{children}</RoutesLayout>
         </Providers>
         <Toaster position="top-center" />
       </body>

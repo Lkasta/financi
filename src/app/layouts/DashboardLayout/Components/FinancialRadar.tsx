@@ -19,9 +19,7 @@ export function FinancialRadar({ revenue, expense }: Props) {
   return (
     <Card className="col-span-3">
       <CardHeader>
-        <h5 className="text-secondary-foreground">
-          Tendência Financeira por Estado
-        </h5>
+        <h5 className="text-secondary-foreground">Tendência Financeira</h5>
         <CardDescription>
           Análise comparativa de <strong>receitas</strong> vs
           <strong> despesas</strong>
