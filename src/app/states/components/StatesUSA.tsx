@@ -68,9 +68,7 @@ export default function StatesUSA({ data }: StatesUSAProps) {
   return (
     <Card className="col-span-1">
       <CardHeader className="">
-        <h3 className="text-lg font-semibold text-gray-900 mb-1">
-          Estados Líderes
-        </h3>
+        <h5 className="text-secondary-foreground">Estados Líderes</h5>
       </CardHeader>
 
       <CardContent className="h-[300px] flex w-full items-center justify-center relative">
